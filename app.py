@@ -80,7 +80,8 @@ def course_container(day_no, date, course_key):
     date_format = date.strftime("%d %b'%y")
     st.subheader(f"📘 {day_no}: {content_data[course_key]['title']}")
     st.write(f"📅 {date_format}")
-    st.write("✍️ Task: Watch the recorded course and share your learnings!")
+    st.write("✍️ Watch this course before the next live class")
+    st.write("")
 
     canonical_title = content_data[course_key]["canonicalTitle"]
     course_id = content_data[course_key]["id"]
@@ -117,18 +118,16 @@ def course_container(day_no, date, course_key):
 
 
 # function for creating the genericcourse cards
-def workshop_container(day_no, date, workshop_name, workshop_jpeg):
+def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, zoom_link):
     #
     date_format = date.strftime("%d %b'%y")
     time_format = date.strftime("%H:%M %p")
 
     cutoff_datetime = date + dt.timedelta(hours=1)
-
-    st.subheader(f"📘 {day_no}: {workshop_name}")
+    st.subheader(f"📕 {day_no}: {workshop_name}")
     st.write(f"📅 {date_format}")
-    st.write(f"🕒 {time_format}")
-    st.write("🚨 Task: Attend the live class and share your learnings!")
-
+    st.write(f"🚨 {agenda} ")
+    st.write("")
     col1, col2 = st.columns(2)
     with col1:
         st.image(workshop_jpeg, width=300)
@@ -144,14 +143,13 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg):
         st.write("")
 
         if dt.datetime.now() > cutoff_datetime:
-            st.write("This live class is now over!")
+            st.write("🤷 This live class is now over!")
         else:
             st.markdown(
-                f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://www.google.com)"
+                f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)]({zoom_link})"
             )
-            # st.markdown(
-            #     f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/1658fb36-a694-4e6c-bad2-a3709a70f6bd.png)](https://www.google.com)"
-            # )
+            st.caption(f"📅 {date_format}")
+            st.caption(f"🕒 {time_format}")
 
     st.write("----")
     st.write("")
@@ -188,6 +186,19 @@ except:
     )
 st.write("---")
 
+
+# day-wise schedule
+
+workshop_container(
+    "Day 00",
+    dt.datetime(2022, 11, 28, 9, 0, 0),
+    "Kickoff Session",
+    "workshop/kick-off-session.jpeg",
+    "Meet your mentors and peers, 15 day schedule and program outcomes",
+    "https://us06web.zoom.us/meeting/register/tZYode2oqj0jGNBgRHXPtY6pUmsWucjnN0FY",
+)
+
+
 course_key = "basics-of-personal-finance"
 course_container("Day 01", dt.datetime(2022, 11, 29, 9, 0, 0), course_key)
 
@@ -196,6 +207,8 @@ workshop_container(
     dt.datetime(2022, 11, 30, 9, 0, 0),
     "Create your own Personal Budget",
     "workshop/basics-of-personal-finance.jpeg",
+    "Budget creation, emergency fund and goal planning",
+    "https://us06web.zoom.us/meeting/register/tZEkdOGhqzMtE9b0onOd_wmHa9MueRfrrYZr",
 )
 
 course_key = "basics-of-trading"
@@ -206,6 +219,8 @@ workshop_container(
     dt.datetime(2022, 12, 2, 9, 0, 0),
     "How to use trading terminal?",
     "workshop/basics-of-trading.jpeg",
+    "Place different order types, place stoploss and target",
+    "https://us06web.zoom.us/meeting/register/tZUrcuGorzMiHdGG0vcixrdpVa2sWRXHOPPt",
 )
 
 course_key = "intro-to-technical-analysis"
@@ -216,6 +231,8 @@ workshop_container(
     dt.datetime(2022, 12, 6, 9, 0, 0),
     "Using technical analysis in Live Markets",
     "workshop/learn-technical-analysis.jpeg",
+    "Identify candlestick & chart patterns, use indicators live",
+    "https://us06web.zoom.us/meeting/register/tZMkduqrpjwiHtykj1YO1Wb5NzlBe8N0wYKH",
 )
 
 course_key = "learn-intraday-strategy"
@@ -224,6 +241,66 @@ course_container("Day 07", dt.datetime(2022, 12, 7, 9, 0, 0), course_key)
 workshop_container(
     "Day 08",
     dt.datetime(2022, 12, 8, 9, 0, 0),
-    "How to trade systems in Live Markets?",
+    "How to trade mean reversion strategy in Live Markets?",
     "workshop/mean-reversion-strategy.jpeg",
+    "Create scanner, place orders according to strategy rules, journalize trades",
+    "https://us06web.zoom.us/meeting/register/tZYtc-6urzwqH9XV56E1PFSLsWLcBU05-DTU",
 )
+
+#
+st.subheader(f"📕 Day 09 - Day 13: How to trade in the live markets?")
+st.write(f"📅 09 Dec'22 to 13 Dec'22")
+st.write(f"🕒 09:00 to 10:00 AM")
+st.write("🚨 Identify trading opportunities, take trades based on your risk appetite")
+st.write("")
+
+col1, col2 = st.columns(2)
+with col1:
+    st.image("workshop/live-trading.jpeg", width=300)
+
+with col2:
+
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+
+    st.markdown(
+        f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZYkdu2rpzgiHdcxaGToQ-zP9aYd6UHOmCeC)"
+    )
+    st.caption(f"🕒 09:00 to 10:00 AM")
+
+st.write("----")
+st.write("")
+
+
+st.subheader(f"📕 Day 14: Graduation Day")
+st.write(f"📅 14 Dec'22")
+st.write(f"🕒 09:00 to 10:00 AM")
+st.write("🚨 Celebrate your success, share your experience and next steps as trader")
+st.write("")
+
+col1, col2 = st.columns(2)
+with col1:
+    st.image("workshop/grad-day.jpeg", width=300)
+
+with col2:
+
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
+
+    st.markdown(
+        f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZwscuGprzksHdEYSTo1qtpozAqxu4ic3RnG)"
+    )
+    st.caption(f"🕒 09:00 to 10:00 AM")
+
+st.write("----")
+st.write("")
