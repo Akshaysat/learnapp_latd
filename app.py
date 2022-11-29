@@ -203,7 +203,7 @@ course_container("Day 03", "01 Dec'22", course_key)
 
 workshop_container(
     "Day 04",
-    "30 Nov'22",
+    "02 Dec'22",
     "How to use trading terminal?",
     "workshop/basics-of-trading.jpeg",
 )
@@ -213,7 +213,7 @@ course_container("Day 05", "05 Dec'22", course_key)
 
 workshop_container(
     "Day 06",
-    "30 Nov'22",
+    "06 Dec'22",
     "Using technical analysis in Live Markets",
     "workshop/learn-technical-analysis.jpeg",
 )
@@ -223,7 +223,7 @@ course_container("Day 07", "07 Dec'22", course_key)
 
 workshop_container(
     "Day 08",
-    "30 Nov'22",
+    "08 Dec'22",
     "How to trade systems in Live Markets?",
     "workshop/mean-reversion-strategy.jpeg",
 )
