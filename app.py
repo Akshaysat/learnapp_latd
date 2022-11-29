@@ -23,7 +23,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # set today's date and time
 curr_time_dec = time.localtime(time.time())
-date = time.strftime("%Y-%m-%d", curr_time_dec)
+curr_date = time.strftime("%Y-%m-%d", curr_time_dec)
 
 # get learnapp's content data
 f = open("content.json")
@@ -77,8 +77,9 @@ def course_progress(email_id, course_id):
 # function for creating the genericcourse cards
 def course_container(day_no, date, course_key):
     #
+    date_format = date.strftime("%d %b'%y")
     st.subheader(f"📘 {day_no}: {content_data[course_key]['title']}")
-    st.write(f"📅 {date}")
+    st.write(f"📅 {date_format}")
     st.write("✍️ Task: Watch the recorded course and share your learnings!")
 
     canonical_title = content_data[course_key]["canonicalTitle"]
@@ -104,30 +105,28 @@ def course_container(day_no, date, course_key):
         st.write("")
         st.write("")
         st.markdown(
-            f"[![Play Now](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-15-nov-22-la-announcement-akriti-singh/5e7bcdd4-039a-4a0f-a255-7c48d3993eaa.png)]({course_url})"
+            f"[![Play Now](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/7b488dc8-950e-4295-81f2-2129c2ab91f0.png)]({course_url})"
         )
+        # st.markdown(
+        #     f"[![Play Now](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-15-nov-22-la-announcement-akriti-singh/5e7bcdd4-039a-4a0f-a255-7c48d3993eaa.png)]({course_url})"
+        # )
         st.caption(f"{progress_str}% completed")
 
-    # col1, col2, col3 = st.columns(3)
-    # with col1:
-    #     st.write("")
-    # with col2:
-    #     st.write("|")
-    #     st.write("|")
-    #     st.write("|")
-    # with col3:
-    #     st.write("")
-
-    st.write("")
+    st.write("----")
     st.write("")
 
 
 # function for creating the genericcourse cards
 def workshop_container(day_no, date, workshop_name, workshop_jpeg):
     #
+    date_format = date.strftime("%d %b'%y")
+    time_format = date.strftime("%H:%M %p")
+
+    cutoff_datetime = date + dt.timedelta(hours=1)
+
     st.subheader(f"📘 {day_no}: {workshop_name}")
-    st.write(f"📅 {date}")
-    st.write(f"🕒 09:00 AM")
+    st.write(f"📅 {date_format}")
+    st.write(f"🕒 {time_format}")
     st.write("🚨 Task: Attend the live class and share your learnings!")
 
     col1, col2 = st.columns(2)
@@ -143,20 +142,18 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg):
         st.write("")
         st.write("")
         st.write("")
-        st.markdown(
-            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/d1fe4b84-9661-4a70-b06d-d7431b8a5799.png)](https://www.google.com)"
-        )
-    # col1, col2, col3 = st.columns(3)
-    # with col1:
-    #     st.write("")
-    # with col2:
-    #     st.write("|")
-    #     st.write("|")
-    #     st.write("|")
-    # with col3:
-    #     st.write("")
 
-    st.write("")
+        if dt.datetime.now() > cutoff_datetime:
+            st.write("This live class is now over!")
+        else:
+            st.markdown(
+                f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://www.google.com)"
+            )
+            # st.markdown(
+            #     f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/1658fb36-a694-4e6c-bad2-a3709a70f6bd.png)](https://www.google.com)"
+            # )
+
+    st.write("----")
     st.write("")
 
 
@@ -170,15 +167,18 @@ with col2:
 with col3:
     st.write("")
 
+st.write("----")
+
 st.markdown(
     "<h2 style='text-align: center; color: white;'>Learn Trading From Scratch</h2>",
     unsafe_allow_html=True,
 )
-st.write("-----")
+
 
 try:
     email_id = st.experimental_get_query_params()["email"][0]
 except:
+    st.write("-----")
     email_id = (
         st.text_input(
             "Enter your LearnApp Registered Email Address to know your progress"
@@ -189,41 +189,41 @@ except:
 st.write("---")
 
 course_key = "basics-of-personal-finance"
-course_container("Day 01", "29 Nov'22", course_key)
+course_container("Day 01", dt.datetime(2022, 11, 29, 9, 0, 0), course_key)
 
 workshop_container(
     "Day 02",
-    "30 Nov'22",
+    dt.datetime(2022, 11, 30, 9, 0, 0),
     "Create your own Personal Budget",
     "workshop/basics-of-personal-finance.jpeg",
 )
 
 course_key = "basics-of-trading"
-course_container("Day 03", "01 Dec'22", course_key)
+course_container("Day 03", dt.datetime(2022, 12, 1, 9, 0, 0), course_key)
 
 workshop_container(
     "Day 04",
-    "02 Dec'22",
+    dt.datetime(2022, 12, 2, 9, 0, 0),
     "How to use trading terminal?",
     "workshop/basics-of-trading.jpeg",
 )
 
 course_key = "intro-to-technical-analysis"
-course_container("Day 05", "05 Dec'22", course_key)
+course_container("Day 05", dt.datetime(2022, 12, 5, 9, 0, 0), course_key)
 
 workshop_container(
     "Day 06",
-    "06 Dec'22",
+    dt.datetime(2022, 12, 6, 9, 0, 0),
     "Using technical analysis in Live Markets",
     "workshop/learn-technical-analysis.jpeg",
 )
 
 course_key = "learn-intraday-strategy"
-course_container("Day 07", "07 Dec'22", course_key)
+course_container("Day 07", dt.datetime(2022, 12, 7, 9, 0, 0), course_key)
 
 workshop_container(
     "Day 08",
-    "08 Dec'22",
+    dt.datetime(2022, 12, 8, 9, 0, 0),
     "How to trade systems in Live Markets?",
     "workshop/mean-reversion-strategy.jpeg",
 )
