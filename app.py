@@ -142,6 +142,9 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, zoom_
         st.write("")
         st.write("")
 
+        st.write(dt.datetime.now())
+        st.write(cutoff_datetime)
+
         if dt.datetime.now() > cutoff_datetime:
             st.write("🤷 This live class is now over!")
         else:
