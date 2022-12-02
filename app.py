@@ -162,7 +162,7 @@ def schedule_container():
         dt.datetime(2022, 11, 28, 9, 0, 0),
         "Kickoff Session",
         "workshop/kick-off-session.jpeg",
-        "Meet your mentors and peers, 15 day schedule and program outcomes",
+        "Meet your mentors and peers, 10 day schedule and program outcomes",
         "https://us06web.zoom.us/meeting/register/tZYode2oqj0jGNBgRHXPtY6pUmsWucjnN0FY",
     )
 
@@ -191,11 +191,11 @@ def schedule_container():
     )
 
     course_key = "intro-to-technical-analysis"
-    course_container("Day 05", dt.datetime(2022, 12, 5, 9, 0, 0), course_key)
+    course_container("Day 05", dt.datetime(2022, 12, 3, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 06",
-        dt.datetime(2022, 12, 6, 9, 0, 0),
+        dt.datetime(2022, 12, 5, 9, 0, 0),
         "Using technical analysis in Live Markets",
         "workshop/learn-technical-analysis.jpeg",
         "Identify candlestick & chart patterns, use indicators live",
@@ -203,11 +203,11 @@ def schedule_container():
     )
 
     course_key = "learn-intraday-strategy"
-    course_container("Day 07", dt.datetime(2022, 12, 7, 9, 0, 0), course_key)
+    course_container("Day 07", dt.datetime(2022, 12, 6, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 08",
-        dt.datetime(2022, 12, 8, 9, 0, 0),
+        dt.datetime(2022, 12, 7, 9, 0, 0),
         "How to trade mean reversion strategy in Live Markets?",
         "workshop/mean-reversion-strategy.jpeg",
         "Create scanner, place orders according to strategy rules, journalize trades",
@@ -215,9 +215,9 @@ def schedule_container():
     )
 
     #
-    st.subheader(f"📕 Day 09 - Day 13: How to trade in the live markets?")
-    st.write(f"📅 09 Dec'22 to 13 Dec'22")
-    st.write(f"🕒 09:00 to 10:00 AM")
+    st.subheader(f"📕 Day 09: How to trade in the live markets?")
+    st.write(f"📅 08 Dec'22")
+    st.write(f"🕒 09:00")
     st.write(
         "🚨 Identify trading opportunities, take trades based on your risk appetite"
     )
@@ -245,9 +245,9 @@ def schedule_container():
     st.write("----")
     st.write("")
 
-    st.subheader(f"📕 Day 14: Graduation Day")
-    st.write(f"📅 14 Dec'22")
-    st.write(f"🕒 09:00 to 10:00 AM")
+    st.subheader(f"📕 Day 10: Graduation Day")
+    st.write(f"📅 09 Dec'22")
+    st.write(f"🕒 09:00 AM")
     st.write("🚨 Celebrate your success, share your experience and next steps as trader")
     st.write("")
 
