@@ -165,68 +165,66 @@ def schedule_container():
     # day-wise schedule
     workshop_container(
         "Day 00",
-        dt.datetime(2022, 11, 28, 9, 0, 0),
+        dt.datetime(2022, 12, 12, 9, 0, 0),
         "Kickoff Session",
         "workshop/kick-off-session.jpeg",
         "Meet your mentors and peers, 10 day schedule and program outcomes",
-        "https://us06web.zoom.us/meeting/register/tZYode2oqj0jGNBgRHXPtY6pUmsWucjnN0FY",
+        "https://us06web.zoom.us/meeting/register/tZEkfu2rqDguH9Ml1plSTjuYlr2CVXlYPhKi",
     )
 
     course_key = "basics-of-personal-finance"
-    course_container("Day 01", dt.datetime(2022, 11, 29, 9, 0, 0), course_key)
+    course_container("Day 01", dt.datetime(2022, 12, 13, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 02",
-        dt.datetime(2022, 11, 30, 9, 0, 0),
+        dt.datetime(2022, 12, 14, 9, 0, 0),
         "Create your own Personal Budget",
         "workshop/basics-of-personal-finance.jpeg",
         "Budget creation, emergency fund and goal planning",
-        "https://us06web.zoom.us/meeting/register/tZEkdOGhqzMtE9b0onOd_wmHa9MueRfrrYZr",
+        "https://us06web.zoom.us/meeting/register/tZcldeCopjoqHN0jnZiRnZyGa042e1DDni_0",
     )
 
     course_key = "basics-of-trading"
-    course_container("Day 03", dt.datetime(2022, 12, 1, 9, 0, 0), course_key)
+    course_container("Day 03", dt.datetime(2022, 12, 15, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 04",
-        dt.datetime(2022, 12, 2, 9, 0, 0),
+        dt.datetime(2022, 12, 16, 9, 0, 0),
         "How to use trading terminal?",
         "workshop/basics-of-trading.jpeg",
         "Place different order types, place stoploss and target",
-        "https://us06web.zoom.us/meeting/register/tZUrcuGorzMiHdGG0vcixrdpVa2sWRXHOPPt",
+        "https://us06web.zoom.us/meeting/register/tZYud-yorjIjHdEC5OahC5QgzhLx45Wvtd5L",
     )
 
     course_key = "intro-to-technical-analysis"
-    course_container("Day 05", dt.datetime(2022, 12, 3, 9, 0, 0), course_key)
+    course_container("Day 05", dt.datetime(2022, 12, 17, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 06",
-        dt.datetime(2022, 12, 5, 9, 0, 0),
+        dt.datetime(2022, 12, 19, 9, 0, 0),
         "Using technical analysis in Live Markets",
         "workshop/learn-technical-analysis.jpeg",
         "Identify candlestick & chart patterns, use indicators live",
-        "https://us06web.zoom.us/meeting/register/tZMkduqrpjwiHtykj1YO1Wb5NzlBe8N0wYKH",
+        "https://us06web.zoom.us/meeting/register/tZMlduuhqz4tHNHFwMxA_xigR_HxXdNEoN1G",
     )
 
     course_key = "learn-intraday-strategy"
-    course_container("Day 07", dt.datetime(2022, 12, 6, 9, 0, 0), course_key)
+    course_container("Day 07", dt.datetime(2022, 12, 20, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 08",
-        dt.datetime(2022, 12, 7, 9, 0, 0),
+        dt.datetime(2022, 12, 21, 9, 0, 0),
         "How to trade mean reversion strategy in Live Markets?",
         "workshop/mean-reversion-strategy.jpeg",
         "Create scanner, place orders according to strategy rules, journalize trades",
-        "https://us06web.zoom.us/meeting/register/tZYtc-6urzwqH9XV56E1PFSLsWLcBU05-DTU",
+        "https://us06web.zoom.us/meeting/register/tZUofu-rrDgtHtAJeBfkstT8nC8js9nCsNBw",
     )
 
     #
-    st.subheader(f"📕 Day 09: How to trade in the live markets?")
-    st.write(f"📅 08 Dec'22")
-    st.write(f"🕒 09:00")
-    st.write(
-        "🚨 Identify trading opportunities, take trades based on your risk appetite"
-    )
+    st.subheader(f"📕 Day 09: Live Examination")
+    st.write(f"📅 22 Dec'22")
+    st.write(f"🕒 09:00 AM")
+    st.write("🚨 60 minutes, 30 questions, 1 final task")
     st.write("")
 
     col1, col2 = st.columns(2)
@@ -252,7 +250,7 @@ def schedule_container():
     st.write("")
 
     st.subheader(f"📕 Day 10: Graduation Day")
-    st.write(f"📅 09 Dec'22")
+    st.write(f"📅 23 Dec'22")
     st.write(f"🕒 09:00 AM")
     st.write("🚨 Celebrate your success, share your experience and next steps as trader")
     st.write("")
@@ -272,7 +270,7 @@ def schedule_container():
         st.write("")
 
         st.markdown(
-            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZwscuGprzksHdEYSTo1qtpozAqxu4ic3RnG)"
+            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZwpce-tpzgvHt1Eeb5czEDR2IvSj3uIfcM3)"
         )
         st.caption(f"🕒 09:00 to 10:00 AM")
 
