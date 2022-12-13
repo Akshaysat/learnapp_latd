@@ -86,7 +86,7 @@ def course_container(day_no, date, course_key):
     date_format = date.strftime("%d %b'%y")
     st.subheader(f"📘 {day_no}: {content_data[course_key]['title']}")
     st.write(f"📅 {date_format}")
-    st.write("✍️ Watch this course before the next live class")
+    st.write("✍️ Watch this recorded course before the next live class")
     st.write("")
 
     canonical_title = content_data[course_key]["canonicalTitle"]
@@ -223,13 +223,13 @@ def schedule_container():
     #
     st.subheader(f"📕 Day 09: Live Examination")
     st.write(f"📅 22 Dec'22")
-    st.write(f"🕒 09:00 AM")
-    st.write("🚨 60 minutes, 30 questions, 1 final task")
+    st.write(f"🕒 09:00 AM - 12:00 PM")
+    st.write("🚨 60 minutes, 30 questions and proof of work subsmission")
     st.write("")
 
     col1, col2 = st.columns(2)
     with col1:
-        st.image("workshop/live-trading.jpeg", width=300)
+        st.image("workshop/exam_day.jpeg", width=300)
 
     with col2:
 
@@ -241,10 +241,10 @@ def schedule_container():
         st.write("")
         st.write("")
 
-        st.markdown(
-            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZYkdu2rpzgiHdcxaGToQ-zP9aYd6UHOmCeC)"
-        )
-        st.caption(f"🕒 09:00 to 10:00 AM")
+        # st.markdown(
+        #     f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZYkdu2rpzgiHdcxaGToQ-zP9aYd6UHOmCeC)"
+        # )
+        st.write(f"🕒 The examination link will be made live at 09:00 AM")
 
     st.write("----")
     st.write("")
@@ -252,7 +252,9 @@ def schedule_container():
     st.subheader(f"📕 Day 10: Graduation Day")
     st.write(f"📅 23 Dec'22")
     st.write(f"🕒 09:00 AM")
-    st.write("🚨 Celebrate your success, share your experience and next steps as trader")
+    st.write(
+        "🚨 Celebrate your success, share your experience and progression path to become a good trader"
+    )
     st.write("")
 
     col1, col2 = st.columns(2)
@@ -303,11 +305,11 @@ except:
     st.write("-----")
     email_id = (
         st.text_input(
-            "Enter your LearnApp Registered Email Address to know your progress"
+            "Enter your LearnApp Registered Email Address to get cohort schedule & your progress"
         )
         .strip()
         .lower()
     )
-    if st.button("Show my progress"):
+    if st.button("Get Schedule"):
         st.write("-----")
         schedule_container()
