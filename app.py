@@ -330,13 +330,13 @@ except:
     st.write("-----")
     email_id = (
         st.text_input(
-            "Enter your LearnApp Registered Email Address to get cohort schedule & your progress"
+            "Enter your LearnApp Registered Email Address to see your progress"
         )
         .strip()
         .lower()
     )
 
-    if st.button("Get Schedule"):
+    if st.button("Show my progress"):
         st.write("-----")
         st.subheader("Your Stats")
         try:
