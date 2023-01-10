@@ -7,6 +7,8 @@ import streamlit as st
 import requests
 import pandas as pd
 import datetime as dt
+from google.oauth2 import service_account
+from gsheetsdb import connect
 
 # set page config
 st.set_page_config(page_title="LearnApp", page_icon="favicon.png")
@@ -25,11 +27,6 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 curr_time_dec = time.localtime(time.time())
 curr_date = time.strftime("%Y-%m-%d", curr_time_dec)
 
-# get learnapp's content data
-f = open("content.json")
-content_data = json.load(f)
-f.close()
-
 # functions for getting user specific course progress
 url = "https://e3d72bp6aa.execute-api.ap-south-1.amazonaws.com/"
 payload = {}
@@ -39,7 +36,92 @@ access_token = response.text
 
 token = "Bearer " + access_token
 
+# Function to get the data of all the courses, classes, workshops and advanced courses on LearnApp
+@st.cache()
+def get_learnapp_content():
 
+    url = "https://catalog.prod.learnapp.com/catalog/discover"
+
+    payload = {}
+    headers = {"authorization": token, "x-api-key": "ZmtFWfKS9aXK3NZQ2dY8Fbd6KqjF8PDu"}
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    data = json.loads(response.text)
+
+    courses_data = []
+    for i in range(len(data["courses"])):
+        for j in range(len(data["courses"][i]["items"])):
+            courses_data.append(data["courses"][i]["items"][j])
+
+    classes_data = []
+    for i in range(len(data["webinars"])):
+        for j in range(len(data["webinars"][i]["items"])):
+            classes_data.append(data["webinars"][i]["items"][j])
+
+    workshops_data = []
+    for i in range(len(data["workshops"])):
+        for j in range(len(data["workshops"][i]["items"])):
+            workshops_data.append(data["workshops"][i]["items"][j])
+
+    advcourses_data = []
+    for i in range(len(data["advCourses"])):
+        for j in range(len(data["advCourses"][i]["items"])):
+            advcourses_data.append(data["advCourses"][i]["items"][j])
+
+    learnapp_data = []
+
+    for i in courses_data:
+        learnapp_data.append(i)
+
+    for i in classes_data:
+        learnapp_data.append(i)
+
+    for i in workshops_data:
+        learnapp_data.append(i)
+
+    for i in advcourses_data:
+        learnapp_data.append(i)
+
+    final_data = {}
+
+    for i in learnapp_data:
+
+        title = i["title"]
+        contentType = i["contentType"]
+        canonicalTitle = i["canonicalTitle"]
+        id = i["id"]
+        totalPlaybackTime = i["totalPlaybackTime"]
+        try:
+            assetUrl = (
+                f"https://assets.learnapp.com/{i['assets']['card-238x165-jpg']['url']}"
+            )
+        except:
+            assetUrl = "https://la-course-recommendation-engine.s3.ap-south-1.amazonaws.com/Basics+of+Trading.jpeg"
+
+        field_data = {
+            canonicalTitle: {
+                "title": title,
+                "canonicalTitle": canonicalTitle,
+                "id": id,
+                "totalPlaybackTime": totalPlaybackTime,
+                "assetUrl": assetUrl,
+                "contentType": contentType,
+            }
+        }
+
+        final_data.update(field_data)
+
+    return final_data
+
+
+# # get learnapp's content data
+f = open("content.json")
+content_data = json.load(f)
+f.close()
+# content_data = get_learnapp_content()
+
+# Function to get userid from email
 def fetch_userid(email):
     email = email.replace("@", "%40")
     url = "https://hydra.prod.learnapp.com/kraken/users/search?q=" + email
@@ -62,6 +144,7 @@ def fetch_userid(email):
         return -1
 
 
+# function to get course progress
 def course_progress(email_id, course_id):
     try:
         user_id = fetch_userid(email_id)
@@ -85,8 +168,6 @@ def course_container(day_no, date, course_key):
     #
     date_format = date.strftime("%d %b'%y")
     st.subheader(f"📘 {day_no}: {content_data[course_key]['title']}")
-    st.write(f"📅 {date_format}")
-    st.write("✍️ Watch this course before the next live class")
     st.write("")
 
     canonical_title = content_data[course_key]["canonicalTitle"]
@@ -96,13 +177,16 @@ def course_container(day_no, date, course_key):
         progress_str = f"✅ {progress}"
     else:
         progress_str = f"📖 {progress}"
-    course_url = (
-        f"https://learnapp.com/courses/{canonical_title}/topics/trailer?locale=en-us"
-    )
+
+    if canonical_title == "which-type-of-trader-are-you":
+        course_url = "https://learnapp.com/workshops/which-type-of-trader-are-you/topics/discretionary-vs-systematic-trading"
+    else:
+        course_url = f"https://learnapp.com/courses/{canonical_title}/topics/trailer?locale=en-us"
 
     col1, col2 = st.columns(2)
     with col1:
         st.image(content_data[course_key]["assetUrl"], width=300)
+        st.caption(f"📅 {date_format}")
 
     with col2:
 
@@ -112,11 +196,8 @@ def course_container(day_no, date, course_key):
         st.write("")
         st.write("")
         st.markdown(
-            f"[![Play Now](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/7b488dc8-950e-4295-81f2-2129c2ab91f0.png)]({course_url})"
+            f"[![Play Now](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/233692d4-8dac-4d1c-bccd-aa65561e7a11.png)]({course_url})"
         )
-        # st.markdown(
-        #     f"[![Play Now](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-15-nov-22-la-announcement-akriti-singh/5e7bcdd4-039a-4a0f-a255-7c48d3993eaa.png)]({course_url})"
-        # )
         st.caption(f"{progress_str}% completed")
 
     st.write("----")
@@ -124,19 +205,20 @@ def course_container(day_no, date, course_key):
 
 
 # function for creating the genericcourse cards
-def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, zoom_link):
+def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, meeting_id):
     #
+    request_link = "https://api.whatsapp.com/send/?phone=9810620950"
+    zoom_link = f"https://us06web.zoom.us/j/{meeting_id}"
     date_format = date.strftime("%d %b'%y")
     time_format = date.strftime("%H:%M %p")
 
-    cutoff_datetime = date + dt.timedelta(hours=1)
-    st.subheader(f"📕 {day_no}: {workshop_name}")
-    st.write(f"📅 {date_format}")
-    st.write(f"🚨 {agenda} ")
+    cutoff_datetime = date + dt.timedelta(hours=2)
+    st.subheader(f"📘 {day_no}: {workshop_name}")
     st.write("")
     col1, col2 = st.columns(2)
     with col1:
         st.image(workshop_jpeg, width=300)
+        st.caption(f"📅 {date_format} | 🕒 {time_format}")
 
     with col2:
 
@@ -149,13 +231,27 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, zoom_
         st.write("")
 
         if dt.datetime.now() + dt.timedelta(hours=5, minutes=30) > cutoff_datetime:
-            st.write("🤷 This live class is now over!")
+
+            col_name = day_no.replace(" ", "_") + "_Live"
+            try:
+                recording_score = df[df["Email"] == email_id][col_name].iloc[0]
+            except:
+                recording_score = 0
+            if recording_score > 0:
+                st.markdown(
+                    f"[![Watch Recording](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/600f5e01-fc1b-4edb-b3fb-411f35a8c092.png)]({zoom_link})"
+                )
+
+            else:
+                st.markdown(
+                    f"[![Request Recording](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/2e866960-fa4c-4ee5-abcd-02ee18c88dd2.png)]({request_link})"
+                )
+                st.write("🤷 Uh Oh! Looks like you did not attend this class!")
+
         else:
             st.markdown(
-                f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)]({zoom_link})"
+                f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/3c432ff4-a7ac-4790-a978-2546286f4945.png)]({zoom_link})"
             )
-            st.caption(f"📅 {date_format}")
-            st.caption(f"🕒 {time_format}")
 
     st.write("----")
     st.write("")
@@ -163,101 +259,74 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, zoom_
 
 def schedule_container():
     # day-wise schedule
+
     workshop_container(
         "Day 00",
-        dt.datetime(2022, 12, 12, 9, 0, 0),
+        dt.datetime(2023, 1, 10, 9, 0, 0),
         "Kickoff Session",
         "workshop/kick-off-session.jpeg",
         "Meet your mentors and peers, 10 day schedule and program outcomes",
-        "https://us06web.zoom.us/meeting/register/tZEkfu2rqDguH9Ml1plSTjuYlr2CVXlYPhKi",
+        "88641101027",
     )
 
-    course_key = "basics-of-personal-finance"
-    course_container("Day 01", dt.datetime(2022, 12, 13, 9, 0, 0), course_key)
+    course_key = "intro-to-trading-terminal"
+    course_container("Day 01", dt.datetime(2023, 1, 11, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 02",
-        dt.datetime(2022, 12, 14, 9, 0, 0),
-        "Create your own Personal Budget",
-        "workshop/basics-of-personal-finance.jpeg",
-        "Budget creation, emergency fund and goal planning",
-        "https://us06web.zoom.us/meeting/register/tZcldeCopjoqHN0jnZiRnZyGa042e1DDni_0",
-    )
-
-    course_key = "basics-of-trading"
-    course_container("Day 03", dt.datetime(2022, 12, 15, 9, 0, 0), course_key)
-
-    workshop_container(
-        "Day 04",
-        dt.datetime(2022, 12, 16, 9, 0, 0),
-        "How to use trading terminal?",
+        dt.datetime(2023, 1, 12, 9, 0, 0),
+        "Trading Terminal 101",
         "workshop/basics-of-trading.jpeg",
-        "Place different order types, place stoploss and target",
-        "https://us06web.zoom.us/meeting/register/tZYud-yorjIjHdEC5OahC5QgzhLx45Wvtd5L",
+        "Budget creation, emergency fund and goal planning",
+        "88232073303",
     )
 
     course_key = "intro-to-technical-analysis"
-    course_container("Day 05", dt.datetime(2022, 12, 17, 9, 0, 0), course_key)
+    course_container("Day 03", dt.datetime(2023, 1, 13, 9, 0, 0), course_key)
+
+    workshop_container(
+        "Day 04",
+        dt.datetime(2023, 1, 14, 9, 0, 0),
+        "Technical Analysis 101",
+        "workshop/learn-technical-analysis.jpeg",
+        "Learn to calculate: CAGR, XIRR and Sharpe Ratio",
+        "84479030889",
+    )
+
+    course_key = "which-type-of-trader-are-you"
+    course_container("Day 05", dt.datetime(2023, 1, 16, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 06",
-        dt.datetime(2022, 12, 19, 9, 0, 0),
-        "Using technical analysis in Live Markets",
-        "workshop/learn-technical-analysis.jpeg",
-        "Identify candlestick & chart patterns, use indicators live",
-        "https://us06web.zoom.us/meeting/register/tZMlduuhqz4tHNHFwMxA_xigR_HxXdNEoN1G",
+        dt.datetime(2023, 1, 17, 9, 0, 0),
+        "System Trading 101",
+        "workshop/system-trading.jpeg",
+        "Futuristic themes in India, Stock selection using screener, Entry & Exit criteria",
+        "81881291679",
     )
 
     course_key = "learn-intraday-strategy"
-    course_container("Day 07", dt.datetime(2022, 12, 20, 9, 0, 0), course_key)
+    course_container("Day 08", dt.datetime(2023, 1, 18, 9, 0, 0), course_key)
 
     workshop_container(
-        "Day 08",
-        dt.datetime(2022, 12, 21, 9, 0, 0),
-        "How to trade mean reversion strategy in Live Markets?",
+        "Day 09",
+        dt.datetime(2023, 1, 19, 9, 0, 0),
+        "Live Trading 101",
         "workshop/mean-reversion-strategy.jpeg",
-        "Create scanner, place orders according to strategy rules, journalize trades",
-        "https://us06web.zoom.us/meeting/register/tZUofu-rrDgtHtAJeBfkstT8nC8js9nCsNBw",
+        "Selection criteria, entry & exit rules",
+        "88163348655",
     )
 
-    #
-    st.subheader(f"📕 Day 09: Live Examination")
-    st.write(f"📅 22 Dec'22")
-    st.write(f"🕒 09:00 AM")
-    st.write("🚨 60 minutes, 30 questions, 1 final task")
-    st.write("")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        st.image("workshop/live-trading.jpeg", width=300)
-
-    with col2:
-
-        st.write("")
-        st.write("")
-        st.write("")
-        st.write("")
-        st.write("")
-        st.write("")
-        st.write("")
-
-        st.markdown(
-            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZYkdu2rpzgiHdcxaGToQ-zP9aYd6UHOmCeC)"
-        )
-        st.caption(f"🕒 09:00 to 10:00 AM")
-
-    st.write("----")
-    st.write("")
-
-    st.subheader(f"📕 Day 10: Graduation Day")
-    st.write(f"📅 23 Dec'22")
-    st.write(f"🕒 09:00 AM")
-    st.write("🚨 Celebrate your success, share your experience and next steps as trader")
+    st.subheader(f"📘 Day 10: Graduation Day")
+    st.write(
+        "🚨 Celebrate your success, share your experience and progression path to become a good investor"
+    )
     st.write("")
 
     col1, col2 = st.columns(2)
     with col1:
         st.image("workshop/grad-day.jpeg", width=300)
+        st.caption(f"📅 20 Jan'23 | 🕒 07:30 PM")
 
     with col2:
 
@@ -270,9 +339,8 @@ def schedule_container():
         st.write("")
 
         st.markdown(
-            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-17-nov-22-options-course-email/2f26a465-4fd4-4a0c-b121-5459d714f573.png)](https://us06web.zoom.us/meeting/register/tZwpce-tpzgvHt1Eeb5czEDR2IvSj3uIfcM3)"
+            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/3c432ff4-a7ac-4790-a978-2546286f4945.png)](https://us06web.zoom.us/j/85725705831)"
         )
-        st.caption(f"🕒 09:00 to 10:00 AM")
 
     st.write("----")
     st.write("")
@@ -295,6 +363,30 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Create a connection object.
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"],
+    scopes=[
+        "https://www.googleapis.com/auth/spreadsheets",
+    ],
+)
+conn = connect(credentials=credentials)
+
+# Perform SQL query on the Google Sheet.
+# Uses st.cache to only rerun when the query changes or after 10 min.
+# @st.cache(ttl=600)
+def run_query(query):
+    rows = conn.execute(query, headers=1)
+    rows = rows.fetchall()
+    return rows
+
+
+sheet_url = st.secrets[f"private_gsheets_url_lifs-02"]
+rows = run_query(f'SELECT * FROM "{sheet_url}"')
+df = pd.DataFrame(rows)
+df.set_index("User_ID", inplace=True)
+df = df.sort_values("Score", ascending=False)
+
 
 try:
     email_id = st.experimental_get_query_params()["email"][0]
@@ -303,11 +395,36 @@ except:
     st.write("-----")
     email_id = (
         st.text_input(
-            "Enter your LearnApp Registered Email Address to know your progress"
+            "Enter your LearnApp Registered Email Address to get cohort schedule & your progress"
         )
         .strip()
         .lower()
     )
-    if st.button("Show my progress"):
+
+    if st.button("Get Schedule"):
         st.write("-----")
+        st.subheader("Your Stats")
+        try:
+            user_score = df[df["Email"] == email_id]["Score"].iloc[0]
+
+        except:
+            user_score = 0
+
+        leaderboard_cutoff = df["Score"].iloc[20]
+
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Your Score", user_score)
+        with col2:
+            st.metric("Leaderboard Cutoff", leaderboard_cutoff)
+
+        st.write("")
+        if user_score >= leaderboard_cutoff:
+            st.success("You're doing great. Keep up the consistency!")
+
+        else:
+            st.info("Please complete the pending courses to join leaderboard toppers")
+
+        st.write("-----")
+        st.subheader("Your Schedule")
         schedule_container()
