@@ -213,7 +213,7 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, meeti
     time_format = date.strftime("%H:%M %p")
 
     cutoff_datetime = date + dt.timedelta(hours=2)
-    st.subheader(f"📘 {day_no}: {workshop_name}")
+    st.subheader(f"🛠️ {day_no}: {workshop_name}")
     st.write("")
     col1, col2 = st.columns(2)
     with col1:
