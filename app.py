@@ -209,10 +209,13 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, meeti
     #
     request_link = "https://api.whatsapp.com/send/?phone=9810620950"
     zoom_link = f"https://us06web.zoom.us/j/{meeting_id}"
+    recording_link = df_recording[df_recording["Day_No"] == day_no][
+        "Recording_Url"
+    ].iloc[0]
     date_format = date.strftime("%d %b'%y")
     time_format = date.strftime("%H:%M %p")
 
-    cutoff_datetime = date + dt.timedelta(hours=2)
+    cutoff_datetime = date + dt.timedelta(hours=1)
     st.subheader(f"🛠️ {day_no}: {workshop_name}")
     st.write("")
     col1, col2 = st.columns(2)
@@ -233,14 +236,21 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, meeti
         if dt.datetime.now() + dt.timedelta(hours=5, minutes=30) > cutoff_datetime:
 
             col_name = day_no.replace(" ", "_") + "_Live"
+
             try:
                 recording_score = df[df["Email"] == email_id][col_name].iloc[0]
             except:
                 recording_score = 0
-            if recording_score > 0:
-                st.markdown(
-                    f"[![Watch Recording](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/600f5e01-fc1b-4edb-b3fb-411f35a8c092.png)]({zoom_link})"
-                )
+
+            if recording_score > 5:
+
+                if recording_link == None:
+                    st.write("⌛ Uploading...")
+                    st.caption("Check back in some time")
+                else:
+                    st.markdown(
+                        f"[![Watch Recording](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/600f5e01-fc1b-4edb-b3fb-411f35a8c092.png)]({recording_link})"
+                    )
 
             else:
                 st.markdown(
@@ -381,11 +391,15 @@ def run_query(query):
     return rows
 
 
-sheet_url = st.secrets[f"private_gsheets_url_lifs-02"]
+sheet_url = st.secrets[f"private_gsheets_url_latd-03"]
 rows = run_query(f'SELECT * FROM "{sheet_url}"')
 df = pd.DataFrame(rows)
 df.set_index("User_ID", inplace=True)
 df = df.sort_values("Score", ascending=False)
+
+recording_sheet_url = "https://docs.google.com/spreadsheets/d/1MxBEI7UbecHcAHXbOW9MKH6CR8ebTfNQ03ygGr_ikXo/edit#gid=1961064199"
+rows = run_query(f'SELECT * FROM "{recording_sheet_url}"')
+df_recording = pd.DataFrame(rows)
 
 
 try:
