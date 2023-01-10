@@ -346,7 +346,7 @@ def schedule_container():
     st.write("")
 
 
-# Frontend
+# Frontend code
 col1, col2, col3 = st.columns(3)
 with col1:
     st.write("")
