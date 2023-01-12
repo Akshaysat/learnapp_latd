@@ -94,6 +94,11 @@ def course_container(day_no, date, course_key):
     canonical_title = content_data[course_key]["canonicalTitle"]
     course_id = content_data[course_key]["id"]
     progress = course_progress(email_id, course_id)
+
+    if course_key == "intro-to-trading-terminal":
+        if progress > 0:
+            progress += 10
+
     if progress >= 85:
         progress_str = f"✅ {progress}"
     else:
