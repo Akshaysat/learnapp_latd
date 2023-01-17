@@ -242,10 +242,10 @@ def schedule_container():
     )
 
     course_key = "learn-intraday-strategy"
-    course_container("Day 08", dt.datetime(2023, 1, 18, 9, 0, 0), course_key)
+    course_container("Day 07", dt.datetime(2023, 1, 18, 9, 0, 0), course_key)
 
     workshop_container(
-        "Day 09",
+        "Day 08",
         dt.datetime(2023, 1, 19, 9, 0, 0),
         "Live Trading 101",
         "workshop/mean-reversion-strategy.jpeg",
@@ -253,7 +253,7 @@ def schedule_container():
         "88163348655",
     )
 
-    st.subheader(f"📘 Day 10: Graduation Day")
+    st.subheader(f"📘 Day 09: Graduation Day")
     st.write(
         "🚨 Celebrate your success, share your experience and progression path to become a good investor"
     )
