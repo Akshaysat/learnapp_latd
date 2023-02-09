@@ -133,7 +133,7 @@ def course_container(day_no, date, course_key):
 # function for creating the genericcourse cards
 def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, meeting_id):
     #
-    request_link = "https://api.whatsapp.com/send/?phone=9810620950"
+    request_link = "https://api.whatsapp.com/send/?phone=8484819808"
     zoom_link = f"https://us06web.zoom.us/j/{meeting_id}"
     recording_link = df_recording[df_recording["Day_No"] == day_no][
         "Recording_Url"
@@ -168,7 +168,7 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, meeti
             except:
                 recording_score = 0
 
-            if recording_score >= 0:
+            if recording_score > 0:
 
                 if recording_link == None:
                     st.write("⌛ Uploading...")
@@ -198,62 +198,94 @@ def schedule_container():
 
     workshop_container(
         "Day 00",
-        dt.datetime(2023, 1, 10, 9, 0, 0),
+        dt.datetime(2023, 2, 7, 9, 0, 0),
         "Kickoff Session",
         "workshop/kick-off-session.jpeg",
         "Meet your mentors and peers, 10 day schedule and program outcomes",
-        "88641101027",
+        "89680794425",
     )
 
     course_key = "intro-to-trading-terminal"
-    course_container("Day 01", dt.datetime(2023, 1, 11, 9, 0, 0), course_key)
+    course_container("Day 01", dt.datetime(2023, 2, 8, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 02",
-        dt.datetime(2023, 1, 12, 9, 0, 0),
+        dt.datetime(2023, 2, 9, 9, 0, 0),
         "Trading Terminal 101",
         "workshop/basics-of-trading.jpeg",
         "Budget creation, emergency fund and goal planning",
-        "88232073303",
+        "85752841808",
     )
 
     course_key = "intro-to-technical-analysis"
-    course_container("Day 03", dt.datetime(2023, 1, 13, 9, 0, 0), course_key)
+    course_container("Day 03", dt.datetime(2023, 2, 10, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 04",
-        dt.datetime(2023, 1, 14, 9, 0, 0),
+        dt.datetime(2023, 2, 11, 9, 0, 0),
         "Technical Analysis 101",
         "workshop/learn-technical-analysis.jpeg",
         "Learn to calculate: CAGR, XIRR and Sharpe Ratio",
-        "84479030889",
+        "82366433182",
     )
 
-    course_key = "which-type-of-trader-are-you"
-    course_container("Day 05", dt.datetime(2023, 1, 16, 9, 0, 0), course_key)
-
     workshop_container(
-        "Day 06",
-        dt.datetime(2023, 1, 17, 9, 0, 0),
-        "System Trading 101",
+        "Day 05",
+        dt.datetime(2023, 2, 13, 9, 0, 0),
+        "Quantitative Analysis 101",
         "workshop/system-trading.jpeg",
         "Futuristic themes in India, Stock selection using screener, Entry & Exit criteria",
-        "81881291679",
+        "87822324263",
     )
 
     course_key = "learn-intraday-strategy"
-    course_container("Day 07", dt.datetime(2023, 1, 18, 9, 0, 0), course_key)
+    course_container("Day 06", dt.datetime(2023, 2, 14, 9, 0, 0), course_key)
 
     workshop_container(
-        "Day 08",
-        dt.datetime(2023, 1, 19, 9, 0, 0),
-        "Live Trading 101",
+        "Day 07",
+        dt.datetime(2023, 2, 15, 9, 0, 0),
+        "System Trading 101",
         "workshop/mean-reversion-strategy.jpeg",
         "Selection criteria, entry & exit rules",
-        "88163348655",
+        "83622571509",
+    )
+    workshop_container(
+        "Day 08",
+        dt.datetime(2023, 2, 16, 9, 0, 0),
+        "System Trading 102",
+        "workshop/mean-reversion-strategy.jpeg",
+        "Selection criteria, entry & exit rules",
+        "84434006382",
     )
 
-    st.subheader(f"📘 Day 09: Graduation Day")
+    st.subheader(f"📘 Day 09: Assessment Test & Submission")
+    st.write("🚨 Submit all quizzes, assignments and attempt the final exam")
+    st.write("")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image("workshop/exam_day.jpeg", width=300)
+        st.caption(f"📅 17 Feb'23 | Till 11:59 PM")
+
+    with col2:
+
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("")
+        st.write("Quiz link to be uploaded soon...")
+
+        # st.markdown(
+        #     f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/3c432ff4-a7ac-4790-a978-2546286f4945.png)](https://us06web.zoom.us/j/85725705831)"
+        # )
+
+    st.write("----")
+    st.write("")
+
+    st.subheader(f"📘 Day 10: Graduation Day")
     st.write(
         "🚨 Celebrate your success, share your experience and progression path to become a good investor"
     )
@@ -262,7 +294,7 @@ def schedule_container():
     col1, col2 = st.columns(2)
     with col1:
         st.image("workshop/grad-day.jpeg", width=300)
-        st.caption(f"📅 21 Jan'23 | 🕒 05:00 PM")
+        st.caption(f"📅 18 Feb'23 | 🕒 03:00 PM")
 
     with col2:
 
@@ -275,7 +307,7 @@ def schedule_container():
         st.write("")
 
         st.markdown(
-            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/3c432ff4-a7ac-4790-a978-2546286f4945.png)](https://us06web.zoom.us/j/85725705831)"
+            f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/3c432ff4-a7ac-4790-a978-2546286f4945.png)](https://us06web.zoom.us/j/85186488583)"
         )
 
     st.write("----")
@@ -317,13 +349,13 @@ def run_query(query):
     return rows
 
 
-sheet_url = st.secrets[f"private_gsheets_url_latd-03"]
+sheet_url = st.secrets[f"private_gsheets_url_latd-04"]
 rows = run_query(f'SELECT * FROM "{sheet_url}"')
 df = pd.DataFrame(rows)
 df.set_index("User_ID", inplace=True)
 df = df.sort_values("Score", ascending=False)
 
-recording_sheet_url = "https://docs.google.com/spreadsheets/d/1MxBEI7UbecHcAHXbOW9MKH6CR8ebTfNQ03ygGr_ikXo/edit#gid=1961064199"
+recording_sheet_url = "https://docs.google.com/spreadsheets/d/113pise-18fX0Tbd-ofOHc3x6T57BLN45BXEyn2Qo-FQ/edit#gid=1961064199"
 rows = run_query(f'SELECT * FROM "{recording_sheet_url}"')
 df_recording = pd.DataFrame(rows)
 
