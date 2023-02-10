@@ -168,7 +168,7 @@ def workshop_container(day_no, date, workshop_name, workshop_jpeg, agenda, meeti
             except:
                 recording_score = 0
 
-            if recording_score > 0:
+            if recording_score >= 0:
 
                 if recording_link == None:
                     st.write("⌛ Uploading...")
