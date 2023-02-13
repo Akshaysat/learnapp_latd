@@ -229,17 +229,17 @@ def schedule_container():
         "82366433182",
     )
 
+    course_key = "learn-intraday-strategy"
+    course_container("Day 05", dt.datetime(2023, 2, 13, 9, 0, 0), course_key)
+
     workshop_container(
-        "Day 05",
-        dt.datetime(2023, 2, 13, 9, 0, 0),
+        "Day 06",
+        dt.datetime(2023, 2, 14, 9, 0, 0),
         "Quantitative Analysis 101",
         "workshop/system-trading.jpeg",
         "Futuristic themes in India, Stock selection using screener, Entry & Exit criteria",
         "87822324263",
     )
-
-    course_key = "learn-intraday-strategy"
-    course_container("Day 06", dt.datetime(2023, 2, 14, 9, 0, 0), course_key)
 
     workshop_container(
         "Day 07",
