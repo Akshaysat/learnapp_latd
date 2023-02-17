@@ -276,7 +276,7 @@ def schedule_container():
         st.write("")
         st.write("")
         st.write("")
-        st.write("Quiz link to be uploaded soon...")
+        st.write("Quiz has been uploaded on Google Classroom")
 
         # st.markdown(
         #     f"[![Register](https://s3.ap-south-1.amazonaws.com/messenger.prod.learnapp.com/emails/newsLetters-05-jan-23-la-announcement-shivam-vashisth/3c432ff4-a7ac-4790-a978-2546286f4945.png)](https://us06web.zoom.us/j/85725705831)"
